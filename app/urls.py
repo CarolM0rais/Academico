@@ -1,11 +1,17 @@
-from django.contrib import admin
 from django.urls import path
-from django.views.generic import TemplateView
-from app.views import *
 from . import views
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', views.IndexView, name='index'),
+    path('estudantes', views.EstudantesView, name='estudantes'),
+    path('turmas', views.TurmasView, name='turmas'),
+    path('disciplinas', views.DisciplinasView, name='disciplinas'),
+    path('cursos', views.CursosView, name='cursos'),
+    path('avaliacoes', views.AvaliacoesView, name='avaliacoes'),
+    path('professores', views.ProfessoresView, name='professores'),
+    path('frequencia', views.FrequenciasView, name='frequencia'),
+    path('matriculas', views.MatriculasView, name='matriculas'),
+    path('ocorrencias', views.OcorrenciasView, name='ocorrencias'),
+    path('instituicoes', views.InstituicoesView, name='instituicoes'),
+    path('areasdosaber', views.AreasdosaberView, name='areasdosaber'),
 ]
-
