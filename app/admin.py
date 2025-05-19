@@ -1,7 +1,6 @@
 from django.contrib import admin
 from .models import *
 
-# i) Ocupação e pessoas
 class EstudanteInline(admin.TabularInline):
     model = Estudante
     extra = 1
@@ -10,43 +9,41 @@ class ProfessorInline(admin.TabularInline):
     model = Professor
     extra = 1
 
-# ii) Instituição e cursos
 class CursoInline(admin.TabularInline):
     model = Curso
     extra = 1
 
-# iii) Área do saber e cursos
+
 class AreaDoSaberInline(admin.TabularInline):
     model = Curso
-    fk_name = 'area_saber'  # Ajuste o campo de relacionamento, se necessário
+    fk_name = 'area_saber'  
     extra = 1
 
-# iv) Cursos e disciplinas
+
 class DisciplinaInline(admin.TabularInline):
     model = Disciplina
     extra = 1
 
-# v) Disciplinas e avaliações
 class AvaliacaoInline(admin.TabularInline):
     model = Avaliacao
     extra = 1
 
-# vi) Turmas e alunos
+
 class MatriculaInline(admin.TabularInline):
     model = Matricula
     extra = 1
 
-# vii) UF e cidades
+
 class CidadeInline(admin.TabularInline):
     model = Cidade
     extra = 1
 
-# viii) Estudantes, disciplinas, avaliações, frequência
+
 class FrequenciaInline(admin.TabularInline):
     model = Frequencia
     extra = 1
 
-# Admin registrations with inlines
+
 @admin.register(UF)
 class UFAdmin(admin.ModelAdmin):
     inlines = [CidadeInline]
@@ -61,7 +58,7 @@ class InstituicaoEnsinoAdmin(admin.ModelAdmin):
 
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
-    inlines = [DisciplinaInline]
+    inlines = [DisciplinaInline, FrequenciaInline]
 
 @admin.register(AreaDoSaber)
 class AreaDoSaberAdmin(admin.ModelAdmin):
@@ -69,7 +66,8 @@ class AreaDoSaberAdmin(admin.ModelAdmin):
 
 @admin.register(Disciplina)
 class DisciplinaAdmin(admin.ModelAdmin):
-    inlines = [AvaliacaoInline]
+    inlines = [AvaliacaoInline, FrequenciaInline]
+
 
 @admin.register(Turma)
 class TurmaAdmin(admin.ModelAdmin):
@@ -98,6 +96,12 @@ class AvaliacaoAdmin(admin.ModelAdmin):
     
     descricao_curta.short_description = 'Descrição'
 
-# Register remaining models without inlines
+
 admin.site.register(Matricula)
 admin.site.register(Turno)
+
+@admin.register(Frequencia)
+class FrequenciaAdmin(admin.ModelAdmin):
+    list_display = ('pessoa', 'curso', 'disciplina', 'numero_faltas')
+    list_filter = ('curso', 'disciplina')
+    search_fields = ('pessoa__nome', 'disciplina__nome', 'curso__nome')
