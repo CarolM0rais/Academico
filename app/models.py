@@ -1,6 +1,6 @@
 from django.db import models
 
-# Gerenciar cidades e UFs
+
 class UF(models.Model):
     sigla = models.CharField(max_length=2, unique=True)
     nome = models.CharField(max_length=50)
@@ -17,7 +17,7 @@ class Cidade(models.Model):
         return f"{self.nome} - {self.uf.sigla}"
 
 
-# Gerenciar pessoas
+
 class Pessoa(models.Model):
     nome = models.CharField(max_length=100)
     nome_do_pai = models.CharField(max_length=100, null=True, blank=True)
@@ -45,7 +45,7 @@ class Professor(Pessoa):
         return self.nome
 
 
-# Gerenciar áreas do saber
+
 class AreaDoSaber(models.Model):
     nome = models.CharField(max_length=100)
 
@@ -53,7 +53,7 @@ class AreaDoSaber(models.Model):
         return self.nome
 
 
-# Gerenciar instituições
+
 class InstituicaoEnsino(models.Model):
     nome = models.CharField(max_length=100)
     site = models.URLField(null=True, blank=True)
@@ -64,7 +64,7 @@ class InstituicaoEnsino(models.Model):
         return self.nome
 
 
-# Gerenciar cursos
+
 class Curso(models.Model):
     nome = models.CharField(max_length=100)
     carga_horaria_total = models.PositiveIntegerField()
@@ -76,7 +76,7 @@ class Curso(models.Model):
         return self.nome
 
 
-# Gerenciar disciplinas
+
 class Disciplina(models.Model):
     nome = models.CharField(max_length=100)
     area_saber = models.ForeignKey(AreaDoSaber, on_delete=models.SET_NULL, null=True, blank=True)
@@ -86,7 +86,7 @@ class Disciplina(models.Model):
         return self.nome
 
 
-# Gerenciar turmas e turnos
+
 class Turno(models.Model):
     nome = models.CharField(max_length=50)
 
@@ -102,7 +102,7 @@ class Turma(models.Model):
         return self.nome
 
 
-# Gerenciar matrículas
+
 class Matricula(models.Model):
     turma = models.ForeignKey(Turma, on_delete = models.CASCADE, null = True, blank = True)
     instituicao = models.ForeignKey(InstituicaoEnsino, on_delete=models.CASCADE)
@@ -115,7 +115,7 @@ class Matricula(models.Model):
         return f"{self.estudante} - {self.curso}"
 
 
-# Gerenciar avaliações e tipos
+
 class TipoAvaliacao(models.Model):
     nome = models.CharField(max_length=100)
 
@@ -134,7 +134,7 @@ class Avaliacao(models.Model):
         return f"Avaliação: {self.descricao}"
 
 
-# Gerenciar frequência
+
 class Frequencia(models.Model):
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE)
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
@@ -145,7 +145,7 @@ class Frequencia(models.Model):
         return f"{self.pessoa} - {self.disciplina}"
 
 
-# Gerenciar ocorrências
+
 class Ocorrencia(models.Model):
     descricao = models.TextField()
     data = models.DateField()

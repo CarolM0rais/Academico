@@ -87,9 +87,16 @@ class ProfessorAdmin(admin.ModelAdmin):
 class OcorrenciaAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(TipoAvaliacao)
-class TipoAvaliacaoAdmin(admin.ModelAdmin):
-    pass
+@admin.register(Avaliacao)
+class AvaliacaoAdmin(admin.ModelAdmin):
+    list_display = ('descricao_curta', 'curso', 'disciplina', 'tipo_avaliacao', 'nota')
+    list_filter = ('curso', 'disciplina', 'tipo_avaliacao')
+    search_fields = ('descricao', 'disciplina__nome', 'curso__nome')
+    
+    def descricao_curta(self, obj):
+        return obj.descricao[:50] + ('...' if len(obj.descricao) > 50 else '')
+    
+    descricao_curta.short_description = 'Descrição'
 
 # Register remaining models without inlines
 admin.site.register(Matricula)
